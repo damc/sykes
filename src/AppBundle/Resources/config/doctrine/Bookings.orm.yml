@@ -1,0 +1,38 @@
+AppBundle\Entity\Bookings:
+    type: entity
+    table: bookings
+    indexes:
+        con-_fk_property-bookings:
+            columns:
+                - _fk_property
+    id:
+        pk:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            column: __pk
+            generator:
+                strategy: IDENTITY
+    fields:
+        startDate:
+            type: date
+            nullable: true
+            column: start_date
+        endDate:
+            type: date
+            nullable: true
+            column: end_date
+    manyToOne:
+        fkProperty:
+            targetEntity: Properties
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                _fk_property:
+                    referencedColumnName: __pk
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

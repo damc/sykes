@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(searchForm) }}
+    {{ form_row(searchForm.location) }}
+    {{ form_row(searchForm.nearBeach) }}
+    {{ form_end(searchForm) }}
+
+    {% if properties is not empty %}
+        <h1>Properties list</h1>
+        <ul>
+            {% for property in properties %}
+                <li>
+                    {{ property.propertyName }}
+                    (location: {{ property.fkLocation.locationName }}, sleeps: {{ property.sleeps }})
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% trans with {'page': page, 'pageCount': pageCount} %}Page %page% out of %pageCount%{% endtrans %} <br />
+        {% if page > 1 %}
+            <a href="{{ path('search', {page: page - 1}) }}?{{ app.request.queryString }}">&lt;&lt; Previous Page</a> |
+        {% endif %}
+        {% if page < pageCount %}
+            <a href="{{ path('search', {page: page + 1}) }}?{{ app.request.queryString }}">Next page &gt;&gt;</a>
+        {% endif %}
+
+    {% elseif pageCount is not null %}
+        <p>{% trans %}Unfortunately we don't have properties like this.{% endtrans %}</p>
+    {% endif %}
+
+{% endblock %}
